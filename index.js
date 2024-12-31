@@ -1,12 +1,21 @@
-const http = require("http");
+const express = require('express')
+const bodyParser = require('body-parser')
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("Hello World\n");
-});
-
+const app = express()
 const PORT = 3000;
-server.listen(PORT, () => {
+
+app.use(bodyParser.json())
+
+
+app.post('/webhook/orders/create', (req, res) => {
+    const orderData = req.body
+    console.log("Order data received", orderData);
+    res.status(200).send('webhook received')
+
+})
+
+
+
+app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
 });
